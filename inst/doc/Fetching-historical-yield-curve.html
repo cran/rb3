@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Fetching Historical Yield Curve from B3</title>
+
+<script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="data:text/css,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" type="text/css" />
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Fetching Historical Yield Curve from B3</h1>
+
+
+
+<p>Data for the yield curve is available in <a href="https://www2.bmf.com.br/pages/portal/bmfbovespa/lumis/lum-taxas-referenciais-bmf-ptBR.asp">B3’s website</a>, section DI X Pre. The data is built using interest rate futures. See this <a href="https://www.b3.com.br/data/files/8B/F5/11/68/5391F61043E561F6AC094EA8/Manual_de_Curvas.pdf">pdf</a> for more details about the source of the yield curves.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rb3)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>df_yc <span class="ot">&lt;-</span> <span class="fu">yc_get</span>(</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">first_date =</span> <span class="fu">Sys.Date</span>() <span class="sc">-</span> <span class="dv">255</span> <span class="sc">*</span> <span class="dv">5</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">last_date =</span> <span class="fu">Sys.Date</span>(),</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">by =</span> <span class="dv">255</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  df_yc,</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> forward_date,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> r_252,</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">group =</span> refdate,</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">color =</span> <span class="fu">factor</span>(refdate))</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Yield Curves for Brazil&quot;</span>,</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;Built using interest rates future contracts&quot;</span>,</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="fu">str_glue</span>(<span class="st">&quot;Data imported using rb3 at {Sys.Date()}&quot;</span>),</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Forward Date&quot;</span>,</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Annual Interest Rate&quot;</span>,</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;Reference Date&quot;</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
