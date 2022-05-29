@@ -20,13 +20,13 @@
 #'
 #' @examples
 #' \dontrun{
-#' fname <- download_data("CDIIDI")
+#' fname <- download_marketdata("CDIIDI")
 #' }
 #'
 #' @export
-download_data <- function(template,
-                          cache_folder = cachedir(),
-                          do_cache = TRUE, ...) {
+download_marketdata <- function(template,
+                                cache_folder = cachedir(),
+                                do_cache = TRUE, ...) {
   template <- .retrieve_template(NULL, template)
   x <- list(...)
   code_ <- digest::digest(x)
@@ -36,12 +36,12 @@ download_data <- function(template,
   )
 
   if (file.exists(dest) && do_cache) {
-    message(stringr::str_glue("Skipping download - using cached version"))
+    # message(stringr::str_glue("Skipping download - using cached version"))
     fname <- unzip_recursive(dest)
     return(fname)
   }
 
-  if (template$download_data(dest, ...)) {
+  if (template$download_marketdata(dest, ...)) {
     fname <- unzip_recursive(dest)
     return(fname)
   } else {

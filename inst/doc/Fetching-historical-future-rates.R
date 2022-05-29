@@ -9,6 +9,7 @@ library(rb3)
 library(ggplot2)
 library(stringr)
 library(dplyr)
+library(bizdays)
 library(fixedincome)
 
 df <- futures_mget(

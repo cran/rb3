@@ -40,19 +40,23 @@ new_part <- function(x) {
 #' @importFrom utils getFromNamespace
 new_template <- function(tpl) {
   obj <- MarketData$proto()
+  obj[["has_reader"]] <- FALSE
+  obj[["has_downloader"]] <- FALSE
   for (n in names(tpl)) {
     if (n == "fields") {
       obj[["fields"]] <- do.call(fields, lapply(tpl$fields, new_field))
     } else if (n == "parts") {
       obj[["parts"]] <- lapply(tpl$parts, new_part)
     } else if (n == "reader") {
+      obj[["has_reader"]] <- TRUE
       obj[["reader"]] <- tpl$reader
       func_name <- tpl$reader[["function"]]
       obj[["read_file"]] <- getFromNamespace(func_name, "rb3")
     } else if (n == "downloader") {
+      obj[["has_downloader"]] <- TRUE
       obj[["downloader"]] <- tpl$downloader
       func_name <- tpl$downloader[["function"]]
-      obj[["download_data"]] <- getFromNamespace(func_name, "rb3")
+      obj[["download_marketdata"]] <- getFromNamespace(func_name, "rb3")
     } else {
       obj[[n]] <- tpl[[n]]
     }
@@ -61,9 +65,10 @@ new_template <- function(tpl) {
   if (is(try(obj$reader, TRUE), "try-error")) {
     reader_name <- paste0(stringr::str_to_lower(obj$filetype), "_read_file")
     obj[["read_file"]] <- getFromNamespace(reader_name, "rb3")
+    obj[["has_reader"]] <- TRUE
   }
 
-  if (obj$filetype %in% c("MCSV", "MFWF")) {
+  if (obj$filetype %in% c("MCSV", "MFWF", "MCUSTOM")) {
     obj[["init"]] <- .multipart_init
   }
 
@@ -85,4 +90,5 @@ load_templates <- function() {
 
 .onAttach <- function(libname, pkgname) {
   load_templates()
+  bizdays::load_builtin_calendars()
 }
