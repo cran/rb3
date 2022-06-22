@@ -1,3 +1,14 @@
+# rb3 0.0.4
+
+* added locale `en` to templates: `COTAHIST_*`
+* new templates
+  * `NegociosIntraday` intraday listed market trades
+  * `NegociosBalcao` intraday OTC (Debentures) trades
+  * `NegociosBTB` intraday lending trades
+* imports organized (using importFrom in NAMESPACE)
+* added option `rb3.cachedir` to set default cache directory in order to use cached files accross multiple sessions
+
+
 # rb3 0.0.3 
 
 * fixed tests for yc_get().
