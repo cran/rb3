@@ -2,6 +2,12 @@
 #'
 #' Returns rb3 package cache directory
 #'
+#' @details
+#' In order to set a default directory for cache, which is a good idea for those
+#' who want to increase data historically, the option `rb3.cachedir` can be
+#' set.
+#' Once it is set, the defined directory will be used as the default cachedir.
+#'
 #' @return a string with the file path of rb3 cache directory
 #'
 #' @examples
@@ -29,7 +35,9 @@ cachedir <- function() {
 #' @return Has no return
 #'
 #' @examples
+#' \dontrun{
 #' clearcache()
+#' }
 #' @export
 clearcache <- function() {
   cache_folder <- cachedir()
@@ -58,7 +66,7 @@ get_single_marketdata <- function(template,
     refdate = refdate, ...
   )
   if (!is.null(fname)) {
-    read_marketdata(fname, template, TRUE, cache_folder, do_cache)
+    read_marketdata(fname, template, TRUE, do_cache)
   } else {
     cli::cli_alert_danger("Error: no data found for date {refdate}")
     return(NULL)

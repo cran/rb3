@@ -3,7 +3,7 @@ Title: Download and Parse Public Data Released by B3 Exchange
 Description: Download and parse public files released by B3 and convert them
     into useful formats and data structures common to data analysis
     practitioners.
-Version: 0.0.4
+Version: 0.0.5
 Authors@R: c(person("Wilson", "Freitas",
                     email = "wilson.freitas@gmail.com",
                     role = c("aut", "cre")),
@@ -31,9 +31,9 @@ RoxygenNote: 7.1.2
 Config/testthat/edition: 3
 Encoding: UTF-8
 NeedsCompilation: no
-Packaged: 2022-06-22 10:24:08 UTC; wilso
+Packaged: 2022-07-16 22:56:07 UTC; wilso
 Author: Wilson Freitas [aut, cre],
   Marcelo Perlin [aut]
 Maintainer: Wilson Freitas <wilson.freitas@gmail.com>
 Repository: CRAN
-Date/Publication: 2022-06-22 10:40:02 UTC
+Date/Publication: 2022-07-16 23:30:02 UTC
