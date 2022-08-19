@@ -1,7 +1,5 @@
-if (!covr::in_covr()) {
-  skip_on_cran()
-  skip_if_offline()
-}
+skip_on_cran()
+skip_if_offline()
 
 if (Sys.info()["sysname"] == "Linux") {
   httr::set_config(httr::config(ssl_verifypeer = FALSE))
@@ -87,5 +85,7 @@ test_that("it should extract specific symbols from cotahist dataset", {
 test_that("it should use cotahist_equity_options_superset", {
   yc <- yc_get(date)
   df <- cotahist_equity_options_superset(ch, yc)
+  expect_true(!anyNA(df))
+  df <- cotahist_options_by_symbol_superset("PETR4", ch, yc)
   expect_true(!anyNA(df))
 })

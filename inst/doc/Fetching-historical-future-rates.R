@@ -10,7 +10,6 @@ library(ggplot2)
 library(stringr)
 library(dplyr)
 library(bizdays)
-library(fixedincome)
 
 df <- futures_mget(
     first_date = "2021-01-01",
@@ -18,14 +17,14 @@ df <- futures_mget(
     by = 5
 )
 
-## -----------------------------------------------------------------------------
+## ---- fig.width=9, fig.height=6-----------------------------------------------
 di1_futures <- df |>
     filter(commodity == "DI1") |>
     mutate(
         maturity_date = maturity2date(maturity_code),
         fixing = following(maturity_date, "Brazil/ANBIMA"),
         business_days = bizdays(refdate, maturity_date, "Brazil/ANBIMA"),
-        adjusted_tax = implied_rate("discrete", business_days / 252, 100000 / price)
+        adjusted_tax = (100000 / price) ^ (252 / business_days) - 1
     ) |>
     filter(business_days > 0)
 
@@ -43,14 +42,14 @@ di1_futures |>
     ) +
     scale_y_continuous(labels = scales::percent)
 
-## -----------------------------------------------------------------------------
+## ---- fig.width=9, fig.height=6-----------------------------------------------
 dap_futures <- df |>
     filter(commodity == "DAP") |>
     mutate(
         maturity_date = maturity2date(maturity_code, "15th day"),
         fixing = following(maturity_date, "Brazil/ANBIMA"),
         business_days = bizdays(refdate, maturity_date, "Brazil/ANBIMA"),
-        adjusted_tax = implied_rate("discrete", business_days / 252, 100000 / price)
+        adjusted_tax = (100000 / price) ^ (252 / business_days) - 1
     ) |>
     filter(business_days > 0)
 
@@ -68,7 +67,7 @@ dap_futures |>
     ) +
     scale_y_continuous(labels = scales::percent)
 
-## ---- warning=FALSE-----------------------------------------------------------
+## ---- warning=FALSE, fig.width=9, fig.height=6--------------------------------
 infl_futures <- df |>
     filter(symbol %in% c("DI1F23", "DAPF23")) |>
     mutate(
@@ -78,7 +77,7 @@ infl_futures <- df |>
         ),
         fixing = following(maturity_date, "Brazil/ANBIMA"),
         business_days = bizdays(refdate, maturity_date, "Brazil/ANBIMA"),
-        adjusted_tax = implied_rate("discrete", business_days / 252, 100000 / price)
+        adjusted_tax = (100000 / price) ^ (252 / business_days) - 1
     ) |>
     arrange(refdate)
 
@@ -92,7 +91,7 @@ infl_expec |>
     geom_line() +
     geom_point()
 
-## ---- warning=FALSE-----------------------------------------------------------
+## ---- warning=FALSE, fig.width=9, fig.height=6--------------------------------
 df_fut <- df |>
     filter(symbol %in% c("DI1F23", "DI1F33")) |>
     mutate(
@@ -118,7 +117,7 @@ df_fwd <- df_fut |>
     select(refdate, fwd) |>
     na.omit()
 
-## -----------------------------------------------------------------------------
+## ---- warning=FALSE, fig.width=9, fig.height=6--------------------------------
 df_fwd |>
     ggplot(aes(x = refdate, y = fwd)) +
     geom_line() +

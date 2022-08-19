@@ -1,7 +1,6 @@
-if (!covr::in_covr()) {
-  skip_on_cran()
-  skip_if_offline()
-}
+
+skip_on_cran()
+skip_if_offline()
 
 test_that("it should get index composition", {
   x <- index_comp_get("IBOV")
@@ -37,12 +36,12 @@ test_that("it should get index by segments", {
 
 test_that("it should get indexreport", {
   date <- preceding(Sys.Date() - 1, "Brazil/B3")
-  x <- suppressWarnings(indexreport_get(date))
+  x <- suppressWarnings(indexreport_get(date, do_cache = FALSE))
   expect_s3_class(x, "data.frame")
   expect_true(ncol(x) == 8)
   expect_true(nrow(x) > 0)
   date1 <- preceding(Sys.Date() - 5, "Brazil/B3")
-  x <- suppressWarnings(indexreport_mget(date1, date))
+  x <- suppressWarnings(indexreport_mget(date1, date, do_cache = FALSE))
   expect_s3_class(x, "data.frame")
   expect_true(ncol(x) == 8)
   expect_true(nrow(x) > 0)
