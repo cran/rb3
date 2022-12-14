@@ -4,14 +4,14 @@
 #' objects.
 #'
 #' @param refdate the reference date used to download the file. This reference
-#'        date will be formated as year/month/day according to the given type.
-#'        Accepts ISO formated date strings.
+#'        date will be formatted as year/month/day according to the given type.
+#'        Accepts ISO formatted date strings.
 #' @param type a string with `yearly` for all data of the given year, `monthly`
 #'        for all data of the given month and `daily` for the given day.
 #' @param cache_folder Location of cache folder (default = cachedir())
 #' @param do_cache Whether to use cache or not (default = TRUE)
 #'
-#' All valueable information is in the `HistoricalPrices` element of the
+#' All valuable information is in the `HistoricalPrices` element of the
 #' returned list.
 #' `Header` and `Trailer` have informations regarding file generation.
 #' The `HistoricalPrices` element has a data.frame with data of many assets
@@ -47,7 +47,9 @@ cotahist_get <- function(refdate,
   if (!is.null(fname)) {
     read_marketdata(fname, tpl)
   } else {
-    cli::cli_alert_danger("Failed {tpl} download for reference date {refdate}")
+    alert("danger", "Failed {tpl} download for reference date {refdate}",
+      tpl = tpl, refdate = refdate
+    )
     NULL
   }
 }
@@ -286,11 +288,11 @@ cotahist_equity_options_superset <- function(ch, yc) {
   eqs_opts <- filter_equity_data(ch, c(70, 80), c("UNT", "CDA", "ACN")) |>
     format_options(TRUE)
   inner_join(eqs_opts, eqs, by = "cod_isin", suffix = c("", ".underlying")) |>
-    select(-c(.data$refdate.underlying, .data$cod_isin)) |>
+    select(-c("refdate.underlying", "cod_isin")) |>
     mutate(
       fixing_maturity_date = following(.data$maturity_date, "Brazil/ANBIMA")
     ) |>
-    inner_join(yc |> select(.data$refdate, .data$forward_date, .data$r_252),
+    inner_join(yc |> select("refdate", "forward_date", "r_252"),
       by = c("refdate", "fixing_maturity_date" = "forward_date")
     )
 }
@@ -309,11 +311,11 @@ cotahist_options_by_symbol_superset <- function(symbol, ch, yc) {
     by = c("refdate", "cod_isin"),
     suffix = c("", ".underlying")
   ) |>
-    select(-c(.data$cod_isin)) |>
+    select(-c("cod_isin")) |>
     mutate(
       fixing_maturity_date = following(.data$maturity_date, "Brazil/ANBIMA")
     ) |>
-    inner_join(yc |> select(.data$refdate, .data$forward_date, .data$r_252),
+    inner_join(yc |> select("refdate", "forward_date", "r_252"),
       by = c("refdate", "fixing_maturity_date" = "forward_date")
     )
 }

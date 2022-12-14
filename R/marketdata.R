@@ -45,24 +45,36 @@ read_marketdata <- function(filename, template = NULL,
   parsed_ <- if (parse_fields) "parsed" else "strict"
   cache_folder <- dirname(filename)
   f_cache <- file.path(
-    cache_folder, str_glue("{basename_}-{parsed_}.rds")
+    cache_folder, str_glue("{b}-{p}.rds", b = basename_, p = parsed_)
   )
 
   if (file.exists(f_cache) && do_cache) {
     df_ <- read_rds(f_cache)
     if (is.null(df_)) {
-      "Removed cached file {f_cache} that returns NULL." |>
-        str_glue() |>
-        cli::cli_alert_warning()
+      alert("warning", "Removed cached file {f_cache} that returns NULL.",
+        f_cache = f_cache
+      )
       unlink(f_cache)
     }
     return(df_)
   }
   df <- template$read_file(filename, parse_fields)
   if (is.null(df)) {
-    "File {filename} hasn't valid content, consider removing if it is cached." |>
-      str_glue() |>
-      cli::cli_alert_warning()
+    rb3_clear_cache <- getOption("rb3.clear.cache")
+    if (!is.null(rb3_clear_cache) && isTRUE(rb3_clear_cache)) {
+      alert(
+        "warning",
+        "Removed {filename} - It hasn't valid content.",
+        filename = filename
+      )
+      unlink(filename)
+    } else {
+      alert(
+        "warning",
+        "{filename} hasn't valid content, consider removing if it is cached.",
+        filename = filename
+      )
+    }
   }
   if (do_cache && !is.null(df)) {
     write_rds(df, f_cache)

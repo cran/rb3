@@ -6,7 +6,7 @@
 #' @param cache_folder Location of cache folder (default = cachedir())
 #' @param do_cache a logical indicating if the existing file (previously
 #'        downloaded) should be used or replaced.
-#' @param ... aditional arguments
+#' @param ... additional arguments
 #'
 #' @return a string with the file path of downloaded file or `NULL` if download
 #'        fails.
@@ -36,11 +36,10 @@ download_marketdata <- function(template,
 
   dest <- file.path(
     cache_folder,
-    str_glue("{code_}.{template$downloader$format}")
+    str_glue("{c}.{template$downloader$format}", c = code_)
   )
 
   if (file.exists(dest) && do_cache) {
-    # cli::cli_alert_info(str_glue("Skipping download - using cached version"))
     fname <- unzip_recursive(dest)
     return(fname)
   }

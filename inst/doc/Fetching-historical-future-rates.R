@@ -95,7 +95,8 @@ infl_expec |>
 df_fut <- df |>
     filter(symbol %in% c("DI1F23", "DI1F33")) |>
     mutate(
-        maturity_date = maturity2date(maturity_code) |> following("Brazil/ANBIMA"),
+        maturity_date = maturity2date(maturity_code) |>
+            following("Brazil/ANBIMA"),
         business_days = bizdays(refdate, maturity_date, "Brazil/ANBIMA")
     )
 

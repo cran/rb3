@@ -7,7 +7,7 @@ datetime_download <- function(., dest, ...) {
   params <- list(...)
   if (is.null(params$refdate)) {
     msg <- "refdate argument not provided - download can't be done"
-    cli::cli_alert_danger(msg)
+    alert("danger", msg)
     return(FALSE)
   }
   url <- strftime(params$refdate, .$downloader$url)
@@ -19,7 +19,7 @@ settlement_prices_download <- function(., dest, ...) {
   params <- list(...)
   if (is.null(params$refdate)) {
     msg <- "refdate argument not provided - download can't be done"
-    cli::cli_alert_danger(msg)
+    alert("danger", msg)
     return(FALSE)
   }
   strdate <- format(as.Date(params$refdate), "%d/%m/%Y")
@@ -39,7 +39,7 @@ curve_download <- function(., dest, ...) {
   params <- list(...)
   if (is.null(params$refdate)) {
     msg <- "refdate argument not provided - download can't be done"
-    cli::cli_alert_danger(msg)
+    alert("danger", msg)
     return(FALSE)
   }
   curve_name <- if (is.null(params$curve_name)) {
@@ -100,6 +100,21 @@ stock_indexes_current_portfolio_download <- function(., dest, ...) {
   )
 }
 
+stock_indexes_statistics_download <- function(., dest, ...) {
+  if (!check_parameters(..., arg_name = "index_name")) {
+    return(FALSE)
+  }
+  if (!check_parameters(..., arg_name = "year")) {
+    return(FALSE)
+  }
+  args <- list(...)
+  url_encoded_download(., dest,
+    language = "pt-br",
+    index = args$index_name,
+    year = args$year
+  )
+}
+
 company_listed_supplement_download <- function(., dest, ...) {
   if (!check_parameters(..., arg_name = "company_name")) {
     return(FALSE)
@@ -135,8 +150,7 @@ company_cash_dividends_download <- function(., dest, ...) {
 check_parameters <- function(..., arg_name) {
   args <- list(...)
   if (!hasName(args, arg_name)) {
-    msg <- str_glue("{arg_name} argument not provided")
-    cli::cli_alert_danger(msg)
+    alert("danger", "{arg_name} argument not provided", arg_name = arg_name)
     FALSE
   } else {
     TRUE
