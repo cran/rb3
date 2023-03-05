@@ -1,4 +1,3 @@
-
 skip_on_cran()
 skip_if_offline()
 
@@ -22,12 +21,10 @@ test_that("it should download a file with a datetime downloader", {
   expect_false(tpl$download_marketdata(dest))
   expect_false(file.exists(dest))
   skip_on_os("linux")
-  date <- getdate("last bizday", Sys.Date(), "Brazil/B3")
+  date <- getdate("last bizday", Sys.Date(), "Brazil/ANBIMA")
   x <- tpl$download_marketdata(dest, refdate = date)
   expect_true(x)
   expect_true(file.exists(dest))
-  # info <- file.info(dest)
-  # expect_true(info$size > 1000000)
 })
 
 test_that("it should fail to datetime_download", {
@@ -153,7 +150,7 @@ test_that("it should datetime_download FPR file", {
 
 test_that("it should datetime_download NegociosBTB file", {
   tpl <- .retrieve_template(NULL, "NegociosBTB")
-  refdate <- as.Date("2022-12-07")
+  refdate <- bizdays::getdate("last bizday", Sys.Date(), "Brazil/B3")
   vcr::use_cassette("NegociosBTB",
     {
       f <- datetime_download(tpl, tempfile(), refdate = refdate)
