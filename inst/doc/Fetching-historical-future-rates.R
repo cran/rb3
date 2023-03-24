@@ -4,18 +4,30 @@ knitr::opts_chunk$set(
     comment = "#>"
 )
 
-## ----setup, message=FALSE-----------------------------------------------------
+## ----setup-load, message=FALSE, warning=FALSE, echo=FALSE---------------------
 library(rb3)
 library(ggplot2)
 library(stringr)
 library(dplyr)
 library(bizdays)
 
-df <- futures_mget(
-    first_date = "2021-01-01",
-    last_date = "2022-04-27",
-    by = 5
-)
+df <- try(futures_mget(first_date = "2021-01-01", last_date = "2022-04-27", by = 5), silent = TRUE)
+if (is(df, "try-error")) {
+  load("futures_mget-20210101_20220427.rda")
+}
+
+## ----setup, eval=FALSE--------------------------------------------------------
+#  library(rb3)
+#  library(ggplot2)
+#  library(stringr)
+#  library(dplyr)
+#  library(bizdays)
+#  
+#  df <- futures_mget(
+#      first_date = "2021-01-01",
+#      last_date = "2022-04-27",
+#      by = 5
+#  )
 
 ## ---- fig.width=9, fig.height=6-----------------------------------------------
 di1_futures <- df |>
