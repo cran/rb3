@@ -2,6 +2,7 @@
 % Please edit documentation in R/rb3-package.R
 \docType{package}
 \name{rb3-package}
+\alias{rb3}
 \alias{rb3-package}
 \title{Read files from Brazilian Financial Market}
 \description{
@@ -43,3 +44,22 @@ alerts be displayed.
 }
 }
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/ropensci/rb3}
+  \item \url{http://ropensci.github.io/rb3/}
+  \item Report bugs at \url{https://github.com/ropensci/rb3/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Wilson Freitas \email{wilson.freitas@gmail.com}
+
+Authors:
+\itemize{
+  \item Marcelo Perlin \email{marceloperlin@gmail.com}
+}
+
+}
+\keyword{internal}

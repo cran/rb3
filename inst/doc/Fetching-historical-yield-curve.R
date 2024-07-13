@@ -11,7 +11,7 @@ library(ggplot2)
 library(stringr)
 library(dplyr)
 
-## ---- echo=FALSE, warning=FALSE, message=FALSE--------------------------------
+## ----echo=FALSE, warning=FALSE, message=FALSE---------------------------------
 df_yc <- try(yc_mget(
   first_date = Sys.Date() - 255 * 5,
   last_date = Sys.Date(),
@@ -22,14 +22,14 @@ if (is(df_yc, "try-error")) {
   load("yc_mget.rda")
 }
 
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  df_yc <- yc_mget(
 #    first_date = Sys.Date() - 255 * 5,
 #    last_date = Sys.Date(),
 #    by = 255
 #  )
 
-## ---- fig.width=9, fig.height=6-----------------------------------------------
+## ----fig.width=9, fig.height=6------------------------------------------------
 p <- ggplot(
   df_yc,
   aes(
@@ -53,7 +53,7 @@ p <- ggplot(
 
 print(p)
 
-## ---- echo=FALSE, warning=FALSE, message=FALSE--------------------------------
+## ----echo=FALSE, warning=FALSE, message=FALSE---------------------------------
 df_yc <- try(yc_ipca_mget(
   first_date = Sys.Date() - 255 * 5,
   last_date = Sys.Date(),
@@ -64,14 +64,14 @@ if (is(df_yc, "try-error")) {
   load("yc_ipca_mget.rda")
 }
 
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  df_yc <- yc_ipca_mget(
 #    first_date = Sys.Date() - 255 * 5,
 #    last_date = Sys.Date(),
 #    by = 255
 #  )
 
-## ---- fig.width=9, fig.height=6-----------------------------------------------
+## ----fig.width=9, fig.height=6------------------------------------------------
 p <- ggplot(
   df_yc |> filter(biz_days > 21, biz_days < 1008),
   aes(
@@ -95,7 +95,7 @@ p <- ggplot(
 
 print(p)
 
-## ---- echo=FALSE, warning=FALSE, message=FALSE--------------------------------
+## ----echo=FALSE, warning=FALSE, message=FALSE---------------------------------
 df_yc <- try(yc_usd_mget(
   first_date = Sys.Date() - 255 * 5,
   last_date = Sys.Date(),
@@ -106,14 +106,14 @@ if (is(df_yc, "try-error")) {
   load("yc_usd_mget.rda")
 }
 
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  df_yc <- yc_usd_mget(
 #    first_date = Sys.Date() - 255 * 5,
 #    last_date = Sys.Date(),
 #    by = 255
 #  )
 
-## ---- fig.width=9, fig.height=6-----------------------------------------------
+## ----fig.width=9, fig.height=6------------------------------------------------
 p <- ggplot(
   df_yc |> filter(biz_days > 21, biz_days < 2520),
   aes(

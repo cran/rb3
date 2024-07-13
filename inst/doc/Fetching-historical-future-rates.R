@@ -1,4 +1,4 @@
-## ---- include = FALSE---------------------------------------------------------
+## ----include = FALSE----------------------------------------------------------
 knitr::opts_chunk$set(
     collapse = TRUE,
     comment = "#>"
@@ -29,7 +29,7 @@ if (is(df, "try-error")) {
 #      by = 5
 #  )
 
-## ---- fig.width=9, fig.height=6-----------------------------------------------
+## ----fig.width=9, fig.height=6------------------------------------------------
 di1_futures <- df |>
     filter(commodity == "DI1") |>
     mutate(
@@ -54,7 +54,7 @@ di1_futures |>
     ) +
     scale_y_continuous(labels = scales::percent)
 
-## ---- fig.width=9, fig.height=6-----------------------------------------------
+## ----fig.width=9, fig.height=6------------------------------------------------
 dap_futures <- df |>
     filter(commodity == "DAP") |>
     mutate(
@@ -79,7 +79,7 @@ dap_futures |>
     ) +
     scale_y_continuous(labels = scales::percent)
 
-## ---- warning=FALSE, fig.width=9, fig.height=6--------------------------------
+## ----warning=FALSE, fig.width=9, fig.height=6---------------------------------
 infl_futures <- df |>
     filter(symbol %in% c("DI1F23", "DAPF23")) |>
     mutate(
@@ -103,7 +103,7 @@ infl_expec |>
     geom_line() +
     geom_point()
 
-## ---- warning=FALSE, fig.width=9, fig.height=6--------------------------------
+## ----warning=FALSE, fig.width=9, fig.height=6---------------------------------
 df_fut <- df |>
     filter(symbol %in% c("DI1F23", "DI1F33")) |>
     mutate(
@@ -130,7 +130,7 @@ df_fwd <- df_fut |>
     select(refdate, fwd) |>
     na.omit()
 
-## ---- warning=FALSE, fig.width=9, fig.height=6--------------------------------
+## ----warning=FALSE, fig.width=9, fig.height=6---------------------------------
 df_fwd |>
     ggplot(aes(x = refdate, y = fwd)) +
     geom_line() +
