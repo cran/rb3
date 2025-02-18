@@ -63,6 +63,7 @@ test_that("it should base64_datetime_download", {
 })
 
 test_that("it should fail base64_datetime_download", {
+  skip_on_os("macos")
   tpl <- .retrieve_template(NULL, "NegociosBalcao")
   refdate <- as.Date("2022-06-05")
   f <- base64_datetime_download(tpl, tempfile(), refdate = refdate)
@@ -156,17 +157,17 @@ test_that("it should datetime_download FPR file", {
   expect_true(f)
 })
 
-test_that("it should datetime_download NegociosBTB file", {
-  tpl <- .retrieve_template(NULL, "NegociosBTB")
-  refdate <- bizdays::getdate("last bizday", Sys.Date(), "Brazil/B3")
-  vcr::use_cassette("NegociosBTB",
-    {
-      f <- datetime_download(tpl, tempfile(), refdate = refdate)
-    },
-    record = "all"
-  )
-  expect_true(f)
-})
+# test_that("it should datetime_download NegociosBTB file", {
+#   tpl <- .retrieve_template(NULL, "NegociosBTB")
+#   refdate <- bizdays::getdate("last bizday", Sys.Date(), "Brazil/B3")
+#   vcr::use_cassette("NegociosBTB",
+#     {
+#       f <- datetime_download(tpl, tempfile(), refdate = refdate)
+#     },
+#     record = "all"
+#   )
+#   expect_true(f)
+# })
 
 test_that("it should datetime_download OpcoesAcoesEmAberto", {
   tpl <- .retrieve_template(NULL, "OpcoesAcoesEmAberto")

@@ -23,11 +23,11 @@ if (is(df_yc, "try-error")) {
 }
 
 ## ----eval=FALSE---------------------------------------------------------------
-#  df_yc <- yc_mget(
-#    first_date = Sys.Date() - 255 * 5,
-#    last_date = Sys.Date(),
-#    by = 255
-#  )
+# df_yc <- yc_mget(
+#   first_date = Sys.Date() - 255 * 5,
+#   last_date = Sys.Date(),
+#   by = 255
+# )
 
 ## ----fig.width=9, fig.height=6------------------------------------------------
 p <- ggplot(
@@ -65,11 +65,11 @@ if (is(df_yc, "try-error")) {
 }
 
 ## ----eval=FALSE---------------------------------------------------------------
-#  df_yc <- yc_ipca_mget(
-#    first_date = Sys.Date() - 255 * 5,
-#    last_date = Sys.Date(),
-#    by = 255
-#  )
+# df_yc <- yc_ipca_mget(
+#   first_date = Sys.Date() - 255 * 5,
+#   last_date = Sys.Date(),
+#   by = 255
+# )
 
 ## ----fig.width=9, fig.height=6------------------------------------------------
 p <- ggplot(
@@ -107,11 +107,11 @@ if (is(df_yc, "try-error")) {
 }
 
 ## ----eval=FALSE---------------------------------------------------------------
-#  df_yc <- yc_usd_mget(
-#    first_date = Sys.Date() - 255 * 5,
-#    last_date = Sys.Date(),
-#    by = 255
-#  )
+# df_yc <- yc_usd_mget(
+#   first_date = Sys.Date() - 255 * 5,
+#   last_date = Sys.Date(),
+#   by = 255
+# )
 
 ## ----fig.width=9, fig.height=6------------------------------------------------
 p <- ggplot(

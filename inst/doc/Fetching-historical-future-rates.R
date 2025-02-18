@@ -17,17 +17,17 @@ if (is(df, "try-error")) {
 }
 
 ## ----setup, eval=FALSE--------------------------------------------------------
-#  library(rb3)
-#  library(ggplot2)
-#  library(stringr)
-#  library(dplyr)
-#  library(bizdays)
-#  
-#  df <- futures_mget(
-#      first_date = "2021-01-01",
-#      last_date = "2022-04-27",
-#      by = 5
-#  )
+# library(rb3)
+# library(ggplot2)
+# library(stringr)
+# library(dplyr)
+# library(bizdays)
+# 
+# df <- futures_mget(
+#     first_date = "2021-01-01",
+#     last_date = "2022-04-27",
+#     by = 5
+# )
 
 ## ----fig.width=9, fig.height=6------------------------------------------------
 di1_futures <- df |>
